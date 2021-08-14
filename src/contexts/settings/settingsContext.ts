@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { SettingsContext, Timer } from "./types";
+import { SettingsContext } from "./types";
 
 export const settingsContext = createContext<SettingsContext>({
 	mode: "dark",
@@ -11,10 +11,10 @@ export const settingsContext = createContext<SettingsContext>({
 	updateTheme: () => {
 		throw new Error("Cannot be called without parent SettingsContextProvider");
 	},
-	createTimer: (t: Timer) => {
+	createTimer: () => {
 		throw new Error("Cannot be called without parent SettingsContextProvider");
 	},
-	destroyTimer: (id: string) => {
+	destroyTimer: () => {
 		throw new Error("Cannot be called without parent SettingsContextProvider");
 	},
 });

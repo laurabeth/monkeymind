@@ -9,6 +9,7 @@ export interface Timer {
 
 export interface SettingsContext {
 	mode: "dark" | "light";
+	// TODO: create theme type
 	theme: "default";
 	timers: Timer[];
 	toggleMode: () => void;
