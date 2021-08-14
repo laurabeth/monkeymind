@@ -1,12 +1,12 @@
 import React, { Component, ErrorInfo } from "react";
 
-interface ErrorBoundryState {
+interface ErrorBoundaryState {
 	hasError: boolean;
 }
 
 class ErrorBoundary extends React.Component<
 	React.ComponentPropsWithRef<typeof Component>,
-	ErrorBoundryState
+	ErrorBoundaryState
 > {
 	constructor(props: React.ComponentPropsWithRef<typeof Component>) {
 		super(props);
