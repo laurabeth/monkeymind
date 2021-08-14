@@ -35,4 +35,4 @@ class ErrorBoundry extends React.Component<
 	}
 }
 
-export default ErrorBoundry;
+export { ErrorBoundry };

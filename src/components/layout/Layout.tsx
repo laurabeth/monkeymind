@@ -4,10 +4,10 @@ import { Routes } from "../routes/Routes";
 
 const Layout = () => {
 	return (
-		<div>
+		<>
 			<Header />
 			<Routes />
-		</div>
+		</>
 	);
 };
 
