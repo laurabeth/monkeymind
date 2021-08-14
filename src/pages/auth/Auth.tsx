@@ -12,14 +12,22 @@ import {
 	Container,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useAuthContext } from "../../hooks";
+import { useHistory } from "react-router-dom";
 
 const Auth: FC = () => {
 	const [showPw, setShowPw] = useState<boolean>(false);
+	const { logIn } = useAuthContext();
+	const history = useHistory();
+	const handleLogIn = () => {
+		logIn({ id: "0", username: "dev", email: "dev@mm.com" });
+		history.push("/dashboard");
+	};
 
 	return (
 		<Container>
 			<Center>
-				<Heading>🙈🙉🙊</Heading>
+				<Heading padding="20">🙈🙉🙊</Heading>
 			</Center>
 			<FormControl>
 				<Stack>
@@ -34,7 +42,7 @@ const Auth: FC = () => {
 							/>
 						</InputRightElement>
 					</InputGroup>
-					<Button>Log In</Button>
+					<Button onClick={handleLogIn}>Log In</Button>
 				</Stack>
 			</FormControl>
 		</Container>

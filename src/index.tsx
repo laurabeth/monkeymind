@@ -2,18 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ErrorBoundry, Layout } from "./components";
-import { AuthContextProvider } from "./auth";
+import { AuthContextProvider, SettingsContextProvider } from "./contexts";
 import { ChakraProvider } from "@chakra-ui/react";
 
 const App = () => {
 	return (
 		<ErrorBoundry>
 			<AuthContextProvider>
-				<ChakraProvider>
-					<Router>
-						<Layout />
-					</Router>
-				</ChakraProvider>
+				<SettingsContextProvider>
+					<ChakraProvider>
+						<Router>
+							<Layout />
+						</Router>
+					</ChakraProvider>
+				</SettingsContextProvider>
 			</AuthContextProvider>
 		</ErrorBoundry>
 	);

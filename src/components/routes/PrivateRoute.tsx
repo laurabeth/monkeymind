@@ -3,16 +3,16 @@ import { useHistory } from "react-router-dom";
 import { useAuthContext } from "../../hooks";
 
 const PrivateRoutes: FC = ({ children }) => {
-	const authContext = useAuthContext();
+	const { userIsLoggedIn } = useAuthContext();
 	const history = useHistory();
 
 	useEffect(() => {
-		if (!authContext.userIsLoggedIn) {
+		if (!userIsLoggedIn) {
 			history.push("/auth");
 		}
-	}, [history, authContext]);
+	}, [history, userIsLoggedIn]);
 
-	return <>{authContext.userIsLoggedIn ? children : <></>}</>;
+	return <>{userIsLoggedIn ? children : <></>}</>;
 };
 
 export { PrivateRoutes };

@@ -4,9 +4,7 @@ export default {
 		public: "/",
 		src: "/dist",
 	},
-	plugins: [
-		/* ... */
-	],
+	plugins: ["@snowpack/plugin-typescript", "@snowpack/plugin-webpack"],
 	routes: [
 		/* Enable an SPA Fallback in development: */
 		{
@@ -20,6 +18,7 @@ export default {
 		// "bundle": true,
 	},
 	packageOptions: {
+		types: "true",
 		/* ... */
 	},
 	devOptions: {
