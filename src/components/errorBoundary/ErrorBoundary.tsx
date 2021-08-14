@@ -4,7 +4,7 @@ interface ErrorBoundryState {
 	hasError: boolean;
 }
 
-class ErrorBoundry extends React.Component<
+class ErrorBoundary extends React.Component<
 	React.ComponentPropsWithRef<typeof Component>,
 	ErrorBoundryState
 > {
@@ -35,4 +35,4 @@ class ErrorBoundry extends React.Component<
 	}
 }
 
-export { ErrorBoundry };
+export { ErrorBoundary };
