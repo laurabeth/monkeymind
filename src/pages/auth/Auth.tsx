@@ -8,6 +8,8 @@ import {
 	InputRightElement,
 	IconButton,
 	Stack,
+	Heading,
+	Container,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -15,7 +17,10 @@ const Auth: FC = () => {
 	const [showPw, setShowPw] = useState<boolean>(false);
 
 	return (
-		<Center padding="20vmin">
+		<Container>
+			<Center>
+				<Heading>🙈🙉🙊</Heading>
+			</Center>
 			<FormControl>
 				<Stack>
 					<Input type="text" placeholder="Username" />
@@ -32,7 +37,7 @@ const Auth: FC = () => {
 					<Button>Log In</Button>
 				</Stack>
 			</FormControl>
-		</Center>
+		</Container>
 	);
 };
 

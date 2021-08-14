@@ -19,15 +19,15 @@ const AuthContextProvider: FC = ({ children }) => {
 		setUser(undefined);
 	}, [setUserIsLoggedIn]);
 
-	const createUser = () => {
+	const createUser = useCallback(() => {
 		throw new Error("Not implemented");
-	};
-	const updateUser = () => {
+	}, []);
+	const updateUser = useCallback(() => {
 		throw new Error("Not implemented");
-	};
-	const destroyUser = () => {
+	}, []);
+	const destroyUser = useCallback(() => {
 		throw new Error("Not implemented");
-	};
+	}, []);
 
 	return (
 		<authContext.Provider
