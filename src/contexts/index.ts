@@ -4,3 +4,4 @@ export { authContext } from "./auth/authContext";
 export { SettingsContextProvider } from "./settings/SettingsContextProvider";
 export type { SettingsContext, Timer } from "./settings/types";
 export { settingsContext } from "./settings/settingsContext";
+export { DataContextProvider } from "./data/DataContextProvider";
