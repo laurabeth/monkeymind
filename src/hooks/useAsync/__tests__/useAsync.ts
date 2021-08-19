@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react-hooks";
-import { AsyncResult, useAsync } from "./useAsync";
+import { AsyncResult, useAsync } from "../useAsync";
 
 it("works as expected", async () => {
 	const expectedError = new Error();
