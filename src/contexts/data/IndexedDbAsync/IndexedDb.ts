@@ -1,23 +1,42 @@
 import { openDatabase } from "./IndexedDbFactory";
-import { ObjectStoreConfig } from "./types";
+import { ObjectStoreConfigs, ObjectStores, OnUpgradeOptions } from "./types";
 
-export class IndexedDb {
+// OSNames extends string, OSKeys extends string, INames extends string
+export class IndexedDb<
+	IdbOsNames extends string,
+	IdbOsKeys extends string,
+	IdbINames extends string,
+> {
 	private _database?: IDBDatabase;
-	private _objectStores?: Record<string, IDBObjectStore>;
+	private _objectStoreConfigs?: ObjectStoreConfigs<IdbOsNames, IdbOsKeys, IdbINames>;
+	private _objectStores?: ObjectStores;
+	private _onUpgrade?: (
+		request: IDBOpenDBRequest,
+		options?: OnUpgradeOptions<IdbOsNames, IdbOsKeys, IdbINames>,
+	) => (event: Event) => void;
+	private _version?: number | undefined;
 	readonly name: string;
-	readonly version?: number | undefined;
 
 	constructor(name: string, version?: number) {
 		this.name = name;
-		this.version = version;
+		this._version = version;
 	}
 
-	open = async (): Promise<IndexedDb> => {
-		if (this.version) {
-			this._database = await openDatabase(this.name);
-		} else {
-			this._database = await openDatabase(this.name, this.version);
-		}
+	getDb = () => {
+		return this._database;
+	};
+
+	build = async (): Promise<IndexedDb<IdbOsNames, IdbOsKeys, IdbINames>> => {
+		const config = {
+			version: this._version,
+			onUpgrade: this._onUpgrade,
+			storeConfigs: this._objectStoreConfigs,
+			callback: (stores: ObjectStores) => {
+				this._objectStores = stores;
+			},
+		};
+		this._database = await openDatabase(this.name, config);
+
 		return this;
 	};
 
@@ -28,48 +47,10 @@ export class IndexedDb {
 		this._database.close();
 	};
 
-	createObjectStores = (configs: ObjectStoreConfig | ObjectStoreConfig[]) => {
-		if (!this._database) {
-			throw new Error(
-				"IndexedDb.createObjectStores: The database hasn't been opened yet.",
-			);
-		}
-
-		this._database.onversionchange = () => {
-			let storeConfigs: ObjectStoreConfig | ObjectStoreConfig[];
-			let stores: Record<string, IDBObjectStore> = {};
-			if ("name" in configs) {
-				storeConfigs = configs as ObjectStoreConfig;
-				if (storeConfigs.options) {
-					stores = {
-						[storeConfigs.name]: this._database!.createObjectStore(
-							storeConfigs.name,
-							storeConfigs.options,
-						),
-					};
-				} else {
-					stores = {
-						[storeConfigs.name]: this._database!.createObjectStore(storeConfigs.name),
-					};
-				}
-			} else {
-				(configs as ObjectStoreConfig[]).forEach((config) => {
-					if (config.options) {
-						Object.assign(stores, {
-							[config.name]: this._database!.createObjectStore(
-								config.name,
-								config.options,
-							),
-						});
-					} else {
-						Object.assign(stores, {
-							[config.name]: this._database!.createObjectStore(config.name),
-						});
-					}
-				});
-			}
-			this._objectStores = stores;
-		};
+	configureObjectStores = (
+		configs?: ObjectStoreConfigs<IdbOsNames, IdbOsKeys, IdbINames>,
+	) => {
+		this._objectStoreConfigs = configs;
 	};
 
 	getObjectStoreNames = () => {
@@ -81,7 +62,7 @@ export class IndexedDb {
 		this._database.objectStoreNames;
 	};
 
-	getObjectStore = (name: string) => {
+	getObjectStore = (name: IdbOsNames) => {
 		if (!this._objectStores) {
 			throw new Error(
 				"IndexedDb.getObjectStore: Object stores have not been initialized.",

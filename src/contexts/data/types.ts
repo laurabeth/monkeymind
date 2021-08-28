@@ -4,3 +4,5 @@ export interface DataContext {
 	// update: <T>() => Promise<T>;
 	// destroy: <T>() => Promise<T>;
 }
+
+export type OSNames = "users" | "settings";
