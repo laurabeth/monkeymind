@@ -1,24 +1,18 @@
-export interface IndexConfig<IdbINames extends string> {
-	name: IdbINames;
+export interface IndexConfig {
+	name: string;
 	keyPath: string | string[];
 	options?: IDBIndexParameters;
 }
 
-export type IndexConfigs<IdbINames extends string> =
-	| IndexConfig<IdbINames>
-	| IndexConfig<IdbINames>[];
+export type IndexConfigs = IndexConfig | IndexConfig[];
 
-export interface IndexedDbConfig<
-	IdbOsNames extends string,
-	IdbOsKeys extends string,
-	IdbINames extends string,
-> {
+export interface IndexedDbConfig {
 	version?: number;
 	onUpgrade?(
 		request: IDBOpenDBRequest,
-		options?: OnUpgradeOptions<IdbOsNames, IdbOsKeys, IdbINames>,
+		options?: OnUpgradeOptions,
 	): (event: Event) => void;
-	storeConfigs?: ObjectStoreConfigs<IdbOsNames, IdbOsKeys, IdbINames>;
+	storeConfigs?: ObjectStoreConfigs;
 }
 
 export interface Indexes {
@@ -31,37 +25,20 @@ export interface ObjectStores {
 	};
 }
 
-export interface ObjectStoreKeyConfig<IdbOsKeys extends string> {
-	keyPath?: IdbOsKeys;
+export interface ObjectStoreKeyConfig {
+	keyPath?: string | string[];
 	autoIncrement?: boolean;
 }
 
-export interface ObjectStoreConfig<
-	IdbOsNames extends string,
-	IdbOsKeys extends string,
-	IdbINames extends string,
-> {
-	name: IdbOsNames;
-	options?: ObjectStoreKeyConfig<IdbOsKeys>;
-	indexConfigs?: IndexConfigs<IdbINames>;
+export interface ObjectStoreConfig {
+	name: string;
+	options?: ObjectStoreKeyConfig;
+	indexConfigs?: IndexConfigs;
 }
 
-export type ObjectStoreConfigs<
-	IdbOsNames extends string,
-	IdbOsKeys extends string,
-	IdbINames extends string,
-> =
-	| ObjectStoreConfig<IdbOsNames, IdbOsKeys, IdbINames>
-	| ObjectStoreConfig<IdbOsNames, IdbOsKeys, IdbINames>[];
+export type ObjectStoreConfigs = ObjectStoreConfig | ObjectStoreConfig[];
 
-export interface OnUpgradeOptions<
-	IdbOsNames extends string,
-	IdbOsKeys extends string,
-	IdbINames extends string,
-> {
-	storeConfigs?:
-		| ObjectStoreConfig<IdbOsNames, IdbOsKeys, IdbINames>
-		| ObjectStoreConfig<IdbOsNames, IdbOsKeys, IdbINames>[];
-	indexConfigs?: IndexConfigs<IdbINames>;
+export interface OnUpgradeOptions {
+	storeConfigs?: ObjectStoreConfig | ObjectStoreConfig[];
 	callback?: (stores: ObjectStores) => void;
 }
