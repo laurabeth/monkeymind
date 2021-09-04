@@ -9,6 +9,7 @@ import type {
 	ObjectStores,
 	OnUpgradeOptions,
 } from "./types";
+import { indexedDbFactory } from "./indexedDbFactory";
 
 /**
  * Type arguments should represent the database schema
@@ -106,7 +107,7 @@ export class IndexedDb {
 
 async function deleteDatabase(dbName: string) {
 	return new Promise<boolean>((resolve, reject) => {
-		const request = window.indexedDB.deleteDatabase(dbName);
+		const request = indexedDbFactory().deleteDatabase(dbName);
 		request.onerror = () => {
 			reject(false);
 		};
@@ -124,9 +125,9 @@ async function openDatabase(
 		let request: IDBOpenDBRequest;
 
 		if (options?.version) {
-			request = window.indexedDB.open(dbName, options.version);
+			request = indexedDbFactory().open(dbName, options.version);
 		} else {
-			request = window.indexedDB.open(dbName);
+			request = indexedDbFactory().open(dbName);
 		}
 
 		if (options && options.onUpgrade) {
